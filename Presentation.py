@@ -1,5 +1,8 @@
 '''
 Semesterproject Fluorescence-Spectroscopy
+
+This file plots the output from the final Network (FullyConnected -> autoencoder.decoder)
+It also places sliders below so that the inputs can be changed dynamically.
 '''
 from lib.Autoencoder import Autoencoder
 from lib.FullyConnected import FullyConnected
@@ -17,13 +20,13 @@ autoencoder.built = True
 autoencoder.load_weights(path+'Autoencoder/weights/weights.hdf5')
 fullyconnected = FullyConnected()
 fullyconnected.built = True
-fullyconnected.load_weights(path+'FC/weights/weights_epoch300.hdf5')
+fullyconnected.load_weights(path+'FC/weights/weights.hdf5')
 
 FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
 
 # Create a figure and a subplot for the output image
-fig, ax = plt.subplots()
-plt.subplots_adjust(bottom=0.3)  # leave some space for the sliders
+fig, ax = plt.subplots(figsize=(19,10))
+plt.subplots_adjust(bottom=0.5)  # leave some space for the sliders
 
 # Assuming you have a function to get the model output
 def get_model_output(input1, input2, input3, input4, input5, input6, input7):
@@ -42,15 +45,15 @@ def update(val):
     fig.canvas.draw_idle()
 
 
-slider_range = [(70,150,1),(1.5,3.0,0.1),(300,800,10),(0.0,100.0,1),(0.0,100.0,1),(3000,10_000,1000),(0.5,7.0,0.1)]
+#slider_range = [(70,150,1),(1.5,3.0,0.1),(300,800,10),(0.0,100.0,1),(0.0,100.0,1),(3000,10_000,1000),(0.5,7.0,0.1)]
 # Create sliders
-slider1 = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'Input 1', 70, 150, valinit=70)
-slider2 = Slider(plt.axes([0.25, 0.14, 0.65, 0.03]), 'Input 2', 1.5, 3.0, valinit=1.5)
-slider3 = Slider(plt.axes([0.25, 0.18, 0.65, 0.03]), 'Input 3', 300, 800, valinit=300)
-slider4 = Slider(plt.axes([0.25, 0.22, 0.65, 0.03]), 'Input 4', 0, 100, valinit=0)
-slider5 = Slider(plt.axes([0.25, 0.26, 0.65, 0.03]), 'Input 5', 0, 100, valinit=0)
-slider6 = Slider(plt.axes([0.25, 0.30, 0.65, 0.03]), 'Input 6', 3000, 10_000, valinit=3000)
-slider7 = Slider(plt.axes([0.25, 0.34, 0.65, 0.03]), 'Input 7', 0.5, 7.0, valinit=0.5)
+slider1 = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'Sagittal entrance arm length [70mm - 150mm]', 70, 150, valinit=70)
+slider2 = Slider(plt.axes([0.25, 0.14, 0.65, 0.03]), 'Design angle alpha [1.5 - 3.0]', 1.5, 3.0, valinit=1.5)
+slider3 = Slider(plt.axes([0.25, 0.18, 0.65, 0.03]), 'Sagittal exit arm length [300mm - 800mm]', 300, 800, valinit=300)
+slider4 = Slider(plt.axes([0.25, 0.22, 0.65, 0.03]), 'Slope Error Sagittal (vertical axis) [0.0 - 100.0]', 0, 100, valinit=0)
+slider5 = Slider(plt.axes([0.25, 0.26, 0.65, 0.03]), 'Slope Error Meridional (horizontal axis) [0.0 - 100.0]', 0, 100, valinit=0)
+slider6 = Slider(plt.axes([0.25, 0.30, 0.65, 0.03]), 'Long Radius R [3000mm, 5000mm, 10000mm]', 3000, 10_000, valinit=3000)
+slider7 = Slider(plt.axes([0.25, 0.34, 0.65, 0.03]), 'Design Angle beta [0.5 - 7.0] (eigentlich [0.5 - 3.0])', 0.5, 3.0, valinit=0.5)
 
 # Update the plot when a slider is moved
 slider1.on_changed(update)

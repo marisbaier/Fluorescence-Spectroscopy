@@ -13,7 +13,7 @@ loss = 'mse'
 
 # Checkpoint
 # Set your desired path
-path = f"results/{batch_size}batchsize_{epochs}epochs_{optimizer.__class__.__name__}optimizer_{loss}loss/"
+path = f"results/{batch_size}batchsize_{epochs}epochs_{optimizer}optimizer_{loss}loss/"
 
 # Check if the directory exists
 if not os.path.exists(path):
