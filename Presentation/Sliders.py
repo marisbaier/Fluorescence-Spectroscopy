@@ -47,13 +47,13 @@ def update(val):
 
 #slider_range = [(70,150,1),(1.5,3.0,0.1),(300,800,10),(0.0,100.0,1),(0.0,100.0,1),(3000,10_000,1000),(0.5,7.0,0.1)]
 # Create sliders
-slider1 = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'Sagittal entrance arm length [70mm - 150mm]', 70, 150, valinit=70)
-slider2 = Slider(plt.axes([0.25, 0.14, 0.65, 0.03]), 'Design angle alpha [1.5 - 3.0]', 1.5, 3.0, valinit=1.5)
-slider3 = Slider(plt.axes([0.25, 0.18, 0.65, 0.03]), 'Sagittal exit arm length [300mm - 800mm]', 300, 800, valinit=300)
-slider4 = Slider(plt.axes([0.25, 0.22, 0.65, 0.03]), 'Slope Error Sagittal (vertical axis) [0.0 - 100.0]', 0, 100, valinit=0)
+slider1 = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'Sagittal entrance arm length [70mm - 150mm]', 70, 150, valinit=150)
+slider2 = Slider(plt.axes([0.25, 0.14, 0.65, 0.03]), 'Design angle alpha [1.5 - 3.0]', 1.5, 3.0, valinit=3)
+slider3 = Slider(plt.axes([0.25, 0.18, 0.65, 0.03]), 'Sagittal exit arm length [300mm - 800mm]', 300, 800, valinit=507)
+slider4 = Slider(plt.axes([0.25, 0.22, 0.65, 0.03]), 'Slope Error Sagittal (vertical axis) [0.0 - 100.0]', 0, 100, valinit=100)
 slider5 = Slider(plt.axes([0.25, 0.26, 0.65, 0.03]), 'Slope Error Meridional (horizontal axis) [0.0 - 100.0]', 0, 100, valinit=0)
-slider6 = Slider(plt.axes([0.25, 0.30, 0.65, 0.03]), 'Long Radius R [3000mm, 5000mm, 10000mm]', 3000, 10_000, valinit=3000)
-slider7 = Slider(plt.axes([0.25, 0.34, 0.65, 0.03]), 'Design Angle beta [0.5 - 7.0] (eigentlich [0.5 - 3.0])', 0.5, 3.0, valinit=0.5)
+slider6 = Slider(plt.axes([0.25, 0.30, 0.65, 0.03]), 'Long Radius R [3000mm, 5000mm, 10000mm]', 3000, 10_000, valinit=10000)
+slider7 = Slider(plt.axes([0.25, 0.34, 0.65, 0.03]), 'Design Angle beta [0.5 - 7.0] (eigentlich [0.5 - 3.0])', 0.5, 3.0, valinit=2.6)
 
 # Update the plot when a slider is moved
 slider1.on_changed(update)
