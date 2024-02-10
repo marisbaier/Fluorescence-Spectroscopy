@@ -14,24 +14,24 @@ class Autoencoder(Model):
       [
         layers.Input(shape=(256, 256)),
         layers.Reshape((256, 256, 1)),
-        layers.Conv2D(16, (9, 9), activation='relu', padding='same', strides=4),    # 256*256*1 -> 256x256x16
-        layers.Conv2D(32, (5,5), activation='relu', padding='same', strides=2),     # 256x256x16 -> 256x256x32
-        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 256x256x32 -> 128x128x32
-        layers.Normalization(),                                                     
-
-        layers.Conv2D(48, (3,3), activation='relu', padding='same', strides=1),     # 128x128x32 -> 128x128x48
-        layers.Conv2D(48, (3,3), activation='relu', padding='same', strides=1),     # 128x128x48 -> 128x128x48
-        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 128x128x48 -> 64x64x48
+        layers.Conv2D(16, (9, 9), activation='relu', padding='same', strides=4),    # 256*256*1 -> 64x64x16
+        layers.Conv2D(32, (5,5), activation='relu', padding='same', strides=2),     # 64x64x16 -> 32x32x32
+        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 32x32x32 -> 16x16x32
         layers.Normalization(),
 
-        layers.Conv2D(64, (3,3), activation='relu', padding='same', strides=1),     # 64x64x48 -> 64x64x64
-        layers.Conv2D(64, (3,3), activation='relu', padding='same', strides=1),     # 64x64x64 -> 64x64x64
-        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 64x64x64 -> 32x32x64
+        layers.Conv2D(48, (3,3), activation='relu', padding='same', strides=1),     # 16x16x32 -> 16x16x48
+        layers.Conv2D(48, (3,3), activation='relu', padding='same', strides=1),     # 16x16x48 -> 16x16x48
+        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 16x16x48 -> 8x8x48
         layers.Normalization(),
 
-        layers.Flatten(),
-        layers.Dense(128, activation='relu'),
-        layers.Dense(32, activation='relu'),
+        layers.Conv2D(64, (3,3), activation='relu', padding='same', strides=1),     # 8x8x48 -> 8x8x64
+        layers.Conv2D(64, (3,3), activation='relu', padding='same', strides=1),     # 8x8x64 -> 8x8x64
+        layers.MaxPooling2D(pool_size=(2, 2),strides=None,padding='same'),          # 8x8x64 -> 4x4x64
+        layers.Normalization(),
+
+        layers.Flatten(),                                                           # 4x4x64 -> 1024
+        layers.Dense(128, activation='relu'),                                       # 1024 -> 128
+        layers.Dense(32, activation='relu'),                                        # 128 -> 32
       ]
     )
 
