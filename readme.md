@@ -7,5 +7,5 @@ cd Fluorescence-Spectroscopy
 
 pip install -r requirements
 
-python3.9 Presentation.py
+python3.9 Presentation/Sliders.py
 ```
