@@ -56,6 +56,21 @@ with tf.device('/device:GPU:2'):
     cons = {'type': 'ineq',
             'fun': lambda x: func(x)}
 
+    best_x = []
+    score_array = []
+    np.array(best_x)
+    np.array(score_array)
+    best_score = 100000
+
+    def safe_score(score, x):
+        global best_score
+        np.append(score_array, score)
+        if score < best_score:
+            np.append(best_x, x)
+            best_score = score
+
+
+
     #evalution function
     def evaluate(input):
         index = 0
@@ -133,6 +148,8 @@ with tf.device('/device:GPU:2'):
         # evaluate image
         score = evaluate(picture)
 
+        safe_score(score, x)
+
         return score
 
 
@@ -150,9 +167,23 @@ with tf.device('/device:GPU:2'):
     number = 3000
     res = basinhopping(optimize, x3000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
     visualise(np.array(res.x))
+    np.save(path+'3000_scoring.npy', score_array)
+    np.save(path+'3000_best_x.npy', best_x)
+    best_x = []
+    score_array = []
+    best_score = 100000
+
     number = 5000
     res = basinhopping(optimize, x5000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
     visualise(np.array(res.x))
+    np.save(path+'3000_scoring.npy', score_array)
+    np.save(path+'3000_best_x.npy', best_x)
+    best_x = []
+    score_array = []
+    best_score = 100000
+
     number = 10000
     res = basinhopping(optimize, x10000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
     visualise(np.array(res.x))
+    np.save(path+'3000_scoring.npy', score_array)
+    np.save(path+'3000_best_x.npy', best_x)
