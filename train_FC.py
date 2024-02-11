@@ -22,7 +22,6 @@ if __name__ == '__main__':
         # train data
         labels = np.load(path+'FC/FC_dataset/labels.npy')
         latentspace = np.load(path+'FC/FC_dataset/latentspace.npy')
-        validation = (labels[:1000], latentspace[:1000])
 
         history = fullyconnected.fit(
             labels, 
@@ -30,7 +29,7 @@ if __name__ == '__main__':
             epochs=epochs,
             batch_size=batch_size,
             callbacks=Checkpoint(path+'FC/', samplepath=path+'FC/FC_dataset/labels.npy', save_freq=20),
-            validation_data = validation
+            validation_data = (labels[:1000], latentspace[:1000])
         )
 
         np.save(path+'FC_history.npy', history.history)

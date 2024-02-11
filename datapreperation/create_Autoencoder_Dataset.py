@@ -1,10 +1,15 @@
 '''
 Semesterproject Fluorescence-Spectroscopy
 '''
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__))[:-15])
 
 import h5py
 import numpy as np
+
 from config import chunk_size
+
 
 if __name__ == '__main__':
     data = h5py.File('/dev/shm/rzp-1_sphere1mm_train_2million.h5', 'r')
