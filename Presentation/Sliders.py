@@ -15,7 +15,7 @@ from config import path
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, Button
 
 
 autoencoder = Autoencoder()
@@ -64,5 +64,17 @@ slider4.on_changed(update)
 slider5.on_changed(update)
 slider6.on_changed(update)
 slider7.on_changed(update)
+
+btn = Button(plt.axes([0.8, 0.01, 0.1, 0.04]), 'Optimize')
+
+def optimize(event):
+    scoring = np.load(path+'3000_bext_x.npy')
+    for x in scoring:
+        output = get_model_output(x[0], x[1], x[2], x[3], x[4], x[5], x[6])
+        im.set_data(output)
+        fig.canvas.draw_idle()
+        plt.pause(0.1)
+
+btn.on_clicked(optimize)
 
 plt.show()
