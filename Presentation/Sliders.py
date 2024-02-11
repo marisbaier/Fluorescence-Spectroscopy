@@ -42,13 +42,11 @@ output = get_model_output(70, 1.5, 300, 0, 0, 3000, 0.5)
 im = ax.imshow(output, vmin=0, vmax=np.log(1024))
 
 # Function to update the plot
-def update(val):
+def update(val=None):
     output = get_model_output(slider1.val, slider2.val, slider3.val, slider4.val, slider5.val, slider6.val, slider7.val)
     im.set_data(output)
     fig.canvas.draw_idle()
 
-
-#slider_range = [(70,150,1),(1.5,3.0,0.1),(300,800,10),(0.0,100.0,1),(0.0,100.0,1),(3000,10_000,1000),(0.5,7.0,0.1)]
 # Create sliders
 slider1 = Slider(plt.axes([0.25, 0.1, 0.65, 0.03]), 'Sagittal entrance arm length [70mm - 150mm]', 70, 150, valinit=150)
 slider2 = Slider(plt.axes([0.25, 0.14, 0.65, 0.03]), 'Design angle alpha [1.5 - 3.0]', 1.5, 3.0, valinit=3)
@@ -68,28 +66,3 @@ slider6.on_changed(update)
 slider7.on_changed(update)
 
 plt.show()
-""" plt.savefig('FC.png')
-
-slider1.val = 150
-update(150)
-plt.savefig('FC2.png')
-
-slider3.val = 800
-update(150)
-plt.savefig('FC3.png')
-
-slider4.val = 50
-update(150)
-plt.savefig('FC4.png')
-
-slider5.val = 50
-update(150)
-plt.savefig('FC5.png')
-
-slider6.val = 5_000
-update(150)
-plt.savefig('FC6.png')
-
-slider7.val = 3.5
-update(150)
-plt.savefig('FC7.png') """
