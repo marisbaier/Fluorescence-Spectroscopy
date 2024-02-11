@@ -1,2 +1,4 @@
 results/128batchsize_300epochs_adamoptimizer_mseloss/Autoencoder/weights/weights_epoch*
 results/128batchsize_300epochs_adamoptimizer_mseloss/FC/weights/weights_epoch*
+__pycache__/
+__pycache__/*

@@ -4,6 +4,10 @@ Semesterproject Fluorescence-Spectroscopy
 This file plots the output from the final Network (FullyConnected -> autoencoder.decoder)
 It also places sliders below so that the inputs can be changed dynamically.
 '''
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__))[:-12])
+
 from lib.Autoencoder import Autoencoder
 from lib.FullyConnected import FullyConnected
 from config import path
