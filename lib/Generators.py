@@ -1,11 +1,9 @@
 '''
 Semesterproject Fluorescence Spectroscopy
 '''
-import h5py
 import numpy as np
 
 from config import path, batch_size
-from lib import Autoencoder
 
 
 class autoencoder_generator:
