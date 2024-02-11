@@ -1,12 +1,16 @@
+'''
+Semesterproject Fluorescence-Spectroscopy
+'''
 import numpy as np
-import tensorflow as tf
-from scipy import optimize
-from scipy.optimize import basinhopping
-from tensorflow import keras
 import pandas as pd
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+import tensorflow as tf
+from scipy import optimize
+from tensorflow import keras
+from scipy.optimize import basinhopping
+
 import assets.Autoencoder
 
 '''

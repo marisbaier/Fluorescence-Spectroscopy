@@ -8,13 +8,12 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__))[:-12])
 
-from lib.Autoencoder import Autoencoder
-from lib.FullyConnected import FullyConnected
+from lib import Autoencoder
+from lib import FullyConnected
 from config import path
 
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from IPython.display import display
 import numpy as np
 from matplotlib.widgets import Slider
 

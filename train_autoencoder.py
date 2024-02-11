@@ -6,9 +6,9 @@ import tensorflow as tf
 
 from config import path, batch_size, epochs, optimizer, loss
 
-from lib.Autoencoder import Autoencoder
-from lib.Generators import autoencoder_generator
-from lib.Checkpoint import Checkpoint
+from lib import Autoencoder
+from lib import autoencoder_generator
+from lib import Checkpoint
 
 
 if __name__ == '__main__':

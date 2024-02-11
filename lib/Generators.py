@@ -5,7 +5,7 @@ import h5py
 import numpy as np
 
 from config import path, batch_size
-from lib.Autoencoder import Autoencoder
+from lib import Autoencoder
 
 
 class autoencoder_generator:

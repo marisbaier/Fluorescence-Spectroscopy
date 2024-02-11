@@ -4,8 +4,8 @@ Semesterproject Fluorescence Spectroscopy
 import numpy as np
 import tensorflow as tf
 
-from lib.Checkpoint import Checkpoint
-from lib.FullyConnected import FullyConnected
+from lib import Checkpoint
+from lib import FullyConnected
 from train_autoencoder import path, loss, optimizer, batch_size, epochs
 
 

@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))[:-15])
 import numpy as np
 import tensorflow as tf
 
-from lib.Autoencoder import Autoencoder
+from lib import Autoencoder
 from config import chunk_size, path
 
 
