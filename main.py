@@ -4,7 +4,8 @@ Semesterproject Fluorescence-Spectroscopy
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from scipy import optimize
+
+from scipy.optimize import minimize
 from scipy.optimize import basinhopping
 
 from lib import Autoencoder
@@ -44,7 +45,7 @@ def visualise(array):
 # constraints: definition of constraints for optimisation
 
 def func(x):
-    y = x * np.array([150, 3, 800, 100, 100, 10_000, 7])
+    y = x * np.array([150, 3, 800, 100, 100, 10_000, 3])
     return np.array([-np.abs(y[0] - 110) + 40,
                      -np.abs(y[1] - 2.25) + 0.75,
                      -np.abs(y[2] - 550) + 250,
@@ -107,11 +108,11 @@ def evaluate(input):
     size0 = 0
     size2 = array_list[2].size
     for x in array_list[0]:
-        a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
+        a = a + x * size0 ** 0.75 / array_list[0].size ** 0.75
         size0 += 1
 
     for x in array_list[2]:
-        b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
+        b = b + x * size2 ** 0.75 / array_list[2].size ** 0.75
         size2 -= 1
 
     c = np.abs(128 - position) / 128 * 200
@@ -141,6 +142,8 @@ FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
 
 def optimizer(x):
     # encode image
+
+
     x[5] = number / 10_000
     #print(np.shape(x))
     #print(x)
@@ -156,15 +159,15 @@ def optimizer(x):
 
 # defining starting variables for 3 unique cases
 x3000 = np.array([7.70011971e+01, 2.42572106e+00, 6.02109219e+02, 2.11285258e-01,
-                  7.37786031e+01, 3.00000000e+03, 9.28045713e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 7])
+                  7.37786031e+01, 3.00000000e+03, 9.28045713e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 3])
 x5000 = np.array([1.42699906e+02, 2.44119493e+00, 7.50803173e+02, 6.88605452e+01,
-                  6.86057883e+01, 5.00000000e+03, 9.72945235e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 7])
+                  6.86057883e+01, 5.00000000e+03, 9.72945235e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 3])
 x10000 = np.array([1.38591463e+02, 1.91580887e+00, 5.49097803e+02, 5.70393449e+00,
-                   3.51447583e+01, 1.00000000e+04, 5.09269345e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 7])
+                   3.51447583e+01, 1.00000000e+04, 5.09269345e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 3])
 
 # call optimizer for all cases, and safe most optimal picture
 number = 3000
-res1 = basinhopping(optimizer, x3000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
+res1 = basinhopping(optimizer, x3000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
 visualise(np.array(res1.x))
 
 
@@ -175,7 +178,7 @@ score_array = []
 best_score = 100000
 
 number = 5000
-res2 = basinhopping(optimizer, x5000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
+res2 = basinhopping(optimizer, x5000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
 visualise(np.array(res2.x))
 
 
@@ -186,8 +189,11 @@ score_array = []
 best_score = 100000
 
 number = 10000
-res3 = basinhopping(optimizer, x10000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
+res3 = basinhopping(optimizer, x10000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
 visualise(np.array(res3.x))
+output_variable = res3.x * np.array([150, 3, 800, 100, 100, 10_000, 3])
+for value in output_variable:
+    print(format(value, '.8f'))
 np.save(path + '10000_scoring.npy', np.array(score_array))
 np.save(path + '10000_best_x.npy', np.array(best_x))
 
