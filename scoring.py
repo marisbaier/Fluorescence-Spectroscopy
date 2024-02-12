@@ -39,7 +39,7 @@ def visualise(array):
 
     fig, ax1 = plt.subplots(1, 1)
     ax1.imshow(picture)
-    fig.savefig("pic_" + str(number) + ".png")
+    fig.savefig(path+"scoring/pic_" + str(number) + ".png")
 
 
 # constraints: definition of constraints for optimisation
@@ -171,8 +171,8 @@ res1 = basinhopping(optimizer, x3000, niter=50, minimizer_kwargs={'constraints':
 visualise(np.array(res1.x))
 
 
-np.save(path + '3000_scoring.npy', np.array(score_array))
-np.save(path + '3000_best_x.npy', np.array(best_x))
+np.save(path + 'scoring/3000_scoring.npy', np.array(score_array))
+np.save(path + 'scoring/3000_best_x.npy', np.array(best_x))
 best_x = []
 score_array = []
 best_score = 100000
@@ -182,8 +182,8 @@ res2 = basinhopping(optimizer, x5000, niter=50, minimizer_kwargs={'constraints':
 visualise(np.array(res2.x))
 
 
-np.save(path + '5000_scoring.npy', np.array(score_array))
-np.save(path + '5000_best_x.npy', np.array(best_x))
+np.save(path + 'scoring/5000_scoring.npy', np.array(score_array))
+np.save(path + 'scoring/5000_best_x.npy', np.array(best_x))
 best_x = []
 score_array = []
 best_score = 100000
@@ -194,8 +194,8 @@ visualise(np.array(res3.x))
 output_variable = res3.x * np.array([150, 3, 800, 100, 100, 10_000, 3])
 for value in output_variable:
     print(format(value, '.8f'))
-np.save(path + '10000_scoring.npy', np.array(score_array))
-np.save(path + '10000_best_x.npy', np.array(best_x))
+np.save(path + 'scoring/10000_scoring.npy', np.array(score_array))
+np.save(path + 'scoring/10000_best_x.npy', np.array(best_x))
 
 print(res1)
 print(res2)
