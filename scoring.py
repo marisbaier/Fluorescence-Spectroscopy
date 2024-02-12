@@ -65,9 +65,9 @@ if __name__ == "__main__":
     def safe_score(score, x):
         global best_score
         score_array.append(score)
-        if score < best_score and (func(x) >= 0).all():
-            best_x.append(x)
-            best_score = score
+        #if score < best_score and (func(x) >= 0).all():
+        best_x.append(x)
+        #best_score = score
 
 
     # evalution function
