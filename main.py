@@ -89,7 +89,7 @@ def evaluate(input):
         else:
             index += index+1
     '''
-    max_thresh = 0.9 * input.max()
+    max_thresh = 0.98 * input.max()
 
     ys_max = []
     for x in range(256):
@@ -108,11 +108,11 @@ def evaluate(input):
     size0 = 0
     size2 = array_list[2].size
     for x in array_list[0]:
-        a = a + x * size0 ** 0.75 / array_list[0].size ** 0.75
+        a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
         size0 += 1
 
     for x in array_list[2]:
-        b = b + x * size2 ** 0.75 / array_list[2].size ** 0.75
+        b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
         size2 -= 1
 
     c = np.abs(128 - position) / 128 * 200
