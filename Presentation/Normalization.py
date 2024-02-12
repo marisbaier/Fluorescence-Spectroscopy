@@ -44,3 +44,9 @@ for i,axs in enumerate(ax.flatten()):
 #fig.tight_layout()
 #fig.colorbar(axslol, ax=ax[-1], shrink=0.3)
 fig.savefig('Presentation/Images_before_Normalization.png') 
+
+for i,axs in enumerate(ax.flatten()):
+    axslol = axs.imshow(Y_log_before[i], vmin=0, vmax=np.log(1024))
+    axs.axis('off')
+
+fig.savefig('Presentation/Images_after_Normalization.png')
