@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))[:-12])
 from lib import Autoencoder
 from lib import FullyConnected
 from config import path
+from scoring import evaluate
 
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -34,7 +35,7 @@ plt.subplots_adjust(bottom=0.5)  # leave some space for the sliders
 # Assuming you have a function to get the model output
 def get_model_output(input1, input2, input3, input4, input5, input6, input7):
     # Replace this with your actual model
-    input = np.array([input1, input2, input3, input4, input5, input6, input7]) / np.array([150,3,800,100,100,10_000,7])
+    input = np.array([input1, input2, input3, input4, input5, input6, input7]) / np.array([150,3,800,100,100,10_000,3])
     return FullModel.predict(input.reshape(1,7)).reshape(256,256)
 
 # Initial plot
@@ -44,6 +45,7 @@ im = ax.imshow(output, vmin=0, vmax=np.log(1024))
 # Function to update the plot
 def update(val=None):
     output = get_model_output(slider1.val, slider2.val, slider3.val, slider4.val, slider5.val, slider6.val, slider7.val)
+    txt.set_text(f'Current Score: {round(evaluate(output),0)}')
     im.set_data(output)
     fig.canvas.draw_idle()
 
@@ -66,17 +68,23 @@ slider6.on_changed(update)
 slider7.on_changed(update)
 
 btn = Button(plt.axes([0.8, 0.01, 0.1, 0.04]), 'Optimize')
+txt = plt.text(-3.89,15,'Current Score: 0.000')
 
 def optimize(event):
-    best_x = np.load(path+'scoring/5000_best_x.npy')
-    scoring = np.load(path+'scoring/5000_scoring.npy')
-    ax2.plot(scoring)
-    for x in best_x:
+    x = np.load(path+'scoring/3000_best_x.npy')
+    scoring = np.load(path+'scoring/3000_scoring.npy')
+    ax2.set_xlim(0,len(scoring))
+    ax2.set_xlabel('Iterations')
+    ax2.set_ylabel('Tested Score')
+    steps=5
+    for current,x in enumerate(x[::steps]):
+        ax2.clear()
+        ax2.plot(scoring[:steps*current])
         x *= np.array([150,3,800,100,100,10_000,3])
         for i in range(7):
             eval(f'slider{i+1}.set_val({x[i]})')
         fig.canvas.draw_idle()
-        plt.pause(0.1)
+        plt.pause(0.0001)
 
 btn.on_clicked(optimize)
 

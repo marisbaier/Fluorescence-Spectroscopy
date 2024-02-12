@@ -27,135 +27,135 @@ Optimizer-Funktion  <---
 |--> visualise(array)
 
 '''
-if __name__ == "__main__":
-    # Visualisation-Code: safe pictures after finished optimisation
-    def visualise(array):
-        # encode image
-        array[5] = number / 10000
-        array = np.expand_dims(array, axis=0)
-        temp = fullyconnected.predict(np.array(array))
-        picture = autoencoder.decoder.predict(temp)[0]
+# Visualisation-Code: safe pictures after finished optimisation
+def visualise(array):
+    # encode image
+    array[5] = number / 10000
+    array = np.expand_dims(array, axis=0)
+    temp = fullyconnected.predict(np.array(array))
+    picture = autoencoder.decoder.predict(temp)[0]
 
-        fig, ax1 = plt.subplots(1, 1)
-        ax1.imshow(picture)
-        fig.savefig(path+"scoring/pic_" + str(number) + ".png")
-
-
-    # constraints: definition of constraints for optimisation
-
-    def func(x):
-        y = x * np.array([150, 3, 800, 100, 100, 10_000, 3])
-        return np.array([-np.abs(y[0] - 110) + 40,
-                        -np.abs(y[1] - 2.25) + 0.75,
-                        -np.abs(y[2] - 550) + 250,
-                        -np.abs(y[3] - 50) + 50,
-                        -np.abs(y[4] - 50) + 50,
-                        1,
-                        -np.abs(y[6] - 3.75) + 3.25])
+    fig, ax1 = plt.subplots(1, 1)
+    ax1.imshow(picture)
+    fig.savefig(path+"scoring/pic_" + str(number) + ".png")
 
 
-    cons = {'type': 'ineq',
-            'fun': lambda x: func(x)}
+# constraints: definition of constraints for optimisation
 
-    best_x = []
-    score_array = []
-    best_score = 100000
-
-
-    def safe_score(score, x):
-        global best_score
-        score_array.append(score)
-        #if score < best_score and (func(x) >= 0).all():
-        best_x.append(x)
-        #best_score = score
+def func(x):
+    y = x * np.array([150, 3, 800, 100, 100, 10_000, 3])
+    return np.array([-np.abs(y[0] - 110) + 40,
+                    -np.abs(y[1] - 2.25) + 0.75,
+                    -np.abs(y[2] - 550) + 250,
+                    -np.abs(y[3] - 50) + 50,
+                    -np.abs(y[4] - 50) + 50,
+                    1,
+                    -np.abs(y[6] - 3.75) + 3.25])
 
 
-    # evalution function
-    def evaluate(input):
-        index = 0
-        max = 0.0
-        position = 0
+cons = {'type': 'ineq',
+        'fun': lambda x: func(x)}
 
-        # create one-dimensional array of row sums
-        one_d_array = np.sum(input, axis=1)
-        '''
-        #find mangan point
-        for x in one_d_array:
-            if x>=max:
-                max = x
-                position = index
-                index += 1
-            else:
-                index += index+1
-        '''
-        max_thresh = 0.98 * input.max()
+best_x = []
+score_array = []
+best_score = 100000
 
-        ys_max = []
-        for x in range(256):
-            for y in range(256):
-                if input[y, x] >= max_thresh:
-                    ys_max.append(y)
-        position = np.mean(np.array(ys_max))
-        position = int(position // 1)
 
-        # array_split
-        array_list = np.split(one_d_array, [position - 3, position + 3])
+def safe_score(score, x):
+    global best_score
+    score_array.append(score)
+    #if score < best_score and (func(x) >= 0).all():
+    best_x.append(x)
+    #best_score = score
 
-        # sums/scoring
-        a, b, c = 0, 0, 0
 
-        size0 = 0
-        size2 = array_list[2].size
-        for x in array_list[0]:
-            a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
-            size0 += 1
+# evalution function
+def evaluate(input):
+    index = 0
+    max = 0.0
+    position = 0
 
-        for x in array_list[2]:
-            b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
-            size2 -= 1
-
-        c = np.abs(128 - position) / 128 * 200
-
-        if max_thresh > 5:
-            score = a + b + c
+    # create one-dimensional array of row sums
+    one_d_array = np.sum(input, axis=1)
+    '''
+    #find mangan point
+    for x in one_d_array:
+        if x>=max:
+            max = x
+            position = index
+            index += 1
         else:
-            score = a + b + c + 1000
+            index += index+1
+    '''
+    max_thresh = 0.98 * input.max()
 
-        return score
+    ys_max = []
+    for x in range(256):
+        for y in range(256):
+            if input[y, x] >= max_thresh:
+                ys_max.append(y)
+    position = np.mean(np.array(ys_max))
+    position = int(position // 1)
+
+    # array_split
+    array_list = np.split(one_d_array, [position - 3, position + 3])
+
+    # sums/scoring
+    a, b, c = 0, 0, 0
+
+    size0 = 0
+    size2 = array_list[2].size
+    for x in array_list[0]:
+        a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
+        size0 += 1
+
+    for x in array_list[2]:
+        b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
+        size2 -= 1
+
+    c = np.abs(128 - position) / 128 * 200
+
+    if max_thresh > 5:
+        score = a + b + c
+    else:
+        score = a + b + c + 1000
+
+    return score
 
 
-    # initialise autoencoder and fully connected network
-    autoencoder = Autoencoder()
-    autoencoder.built = True
-    autoencoder.load_weights(path + 'Autoencoder/weights/weights.hdf5')
-    fullyconnected = FullyConnected()
-    fullyconnected.built = True
-    fullyconnected.load_weights(path + 'FC/weights/weights.hdf5')
+# initialise autoencoder and fully connected network
+autoencoder = Autoencoder()
+autoencoder.built = True
+autoencoder.load_weights(path + 'Autoencoder/weights/weights.hdf5')
+fullyconnected = FullyConnected()
+fullyconnected.built = True
+fullyconnected.load_weights(path + 'FC/weights/weights.hdf5')
 
-    FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
-
-
-    # optimize: create picture from trained network for given values (x),
-    #	   than score said picture with evaluate funktion, and return score to
-    #	   optimizer
-
-    def optimizer(x):
-        # encode image
+FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
 
 
-        x[5] = number / 10_000
-        #print(np.shape(x))
-        #print(x)
-        picture = FullModel.predict(np.array(x).reshape(1, 7))[0]
+# optimize: create picture from trained network for given values (x),
+#	   than score said picture with evaluate funktion, and return score to
+#	   optimizer
 
-        # evaluate image
-        score = evaluate(picture)
-
-        safe_score(score, x)
-
-        return score
+def optimizer(x):
+    # encode image
 
 
+    x[5] = number / 10_000
+    #print(np.shape(x))
+    #print(x)
+    picture = FullModel.predict(np.array(x).reshape(1, 7))[0]
+
+    # evaluate image
+    score = evaluate(picture)
+
+    safe_score(score, x)
+
+    return score
+
+
+if __name__ == "__main__":
     # defining starting variables for 3 unique cases
     x3000 = np.array([7.70011971e+01, 2.42572106e+00, 6.02109219e+02, 2.11285258e-01,
                     7.37786031e+01, 3.00000000e+03, 9.28045713e-01]) / np.array([150, 3, 800, 100, 100, 10_000, 3])
