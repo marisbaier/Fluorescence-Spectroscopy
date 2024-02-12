@@ -2,9 +2,8 @@
 Semesterproject Fluorescence-Spectroscopy
 '''
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
-
+import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from scipy.optimize import basinhopping
 
