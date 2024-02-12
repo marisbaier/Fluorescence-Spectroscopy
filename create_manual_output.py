@@ -18,7 +18,7 @@ FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
 
 number = 3000
 
-def create_heatmap(position, x):
+def create_heatmap_1(position, x):
     one_d_array = np.sum(x, axis=1)
 
     position = int(position)
@@ -42,6 +42,8 @@ def create_heatmap(position, x):
         size2 -= 1
 
     return heatmap
+
+
 
 def visualise(array):
     # encode image
@@ -67,7 +69,7 @@ for value in output_variable:
 
 array_of_ones = np.ones((256, 256))
 
-heat = create_heatmap(256/2, array_of_ones)
+heat = create_heatmap_1(256/2, array_of_ones)
 heat = np.array(heat).reshape(256,1)
 #heat = np.array(heat).transpose()
 print(heat)
