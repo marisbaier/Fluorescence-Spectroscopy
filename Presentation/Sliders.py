@@ -68,11 +68,11 @@ slider7.on_changed(update)
 btn = Button(plt.axes([0.8, 0.01, 0.1, 0.04]), 'Optimize')
 
 def optimize(event):
-    best_x = np.load(path+'scoring/3000_best_x.npy')
-    scoring = np.load(path+'scoring/3000_scoring.npy')
+    best_x = np.load(path+'scoring/5000_best_x.npy')
+    scoring = np.load(path+'scoring/5000_scoring.npy')
     ax2.plot(scoring)
     for x in best_x:
-        x *= np.array([150,3,800,100,100,10_000,7])
+        x *= np.array([150,3,800,100,100,10_000,3])
         for i in range(7):
             eval(f'slider{i+1}.set_val({x[i]})')
         fig.canvas.draw_idle()
