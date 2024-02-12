@@ -65,7 +65,7 @@ if __name__ == "__main__":
     def safe_score(score, x):
         global best_score
         score_array.append(score)
-        if score < best_score and (func(x)>=0).all():
+        if score < best_score and (func(x) >= 0).all():
             best_x.append(x)
             best_score = score
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
             else:
                 index += index+1
         '''
-        max_thresh = 0.9 * input.max()
+        max_thresh = 0.98 * input.max()
 
         ys_max = []
         for x in range(256):
@@ -107,11 +107,11 @@ if __name__ == "__main__":
         size0 = 0
         size2 = array_list[2].size
         for x in array_list[0]:
-            a = a + x * size0 ** 0.75 / array_list[0].size ** 0.75
+            a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
             size0 += 1
 
         for x in array_list[2]:
-            b = b + x * size2 ** 0.75 / array_list[2].size ** 0.75
+            b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
             size2 -= 1
 
         c = np.abs(128 - position) / 128 * 200
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     # call optimizer for all cases, and safe most optimal picture
     number = 3000
-    res1 = basinhopping(optimizer, x3000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
+    res1 = basinhopping(optimizer, x3000, niter=6, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
     visualise(np.array(res1.x))
 
 
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     best_score = 100000
 
     number = 5000
-    res2 = basinhopping(optimizer, x5000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
+    res2 = basinhopping(optimizer, x5000, niter=6, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
     visualise(np.array(res2.x))
 
 
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     best_score = 100000
 
     number = 10000
-    res3 = basinhopping(optimizer, x10000, niter=50, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
+    res3 = basinhopping(optimizer, x10000, niter=6, minimizer_kwargs={'constraints': cons, 'method':"COBYLA"}, T=1.2)
     visualise(np.array(res3.x))
     output_variable = res3.x * np.array([150, 3, 800, 100, 100, 10_000, 3])
     for value in output_variable:
