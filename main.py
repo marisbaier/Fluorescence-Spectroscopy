@@ -59,16 +59,14 @@ cons = {'type': 'ineq',
 
 best_x = []
 score_array = []
-np.array(best_x)
-np.array(score_array)
 best_score = 100000
 
 
 def safe_score(score, x):
     global best_score
-    np.append(score_array, score)
+    score_array.append(score)
     if score < best_score:
-        np.append(best_x, x)
+        best_x.append(x)
         best_score = score
 
 
@@ -109,11 +107,11 @@ def evaluate(input):
     size0 = 0
     size2 = array_list[2].size
     for x in array_list[0]:
-        a = a + x * size0 ** 0.75 / array_list[0].size ** 0.75
+        a = a + x * size0 ** 0.5 / array_list[0].size ** 0.5
         size0 += 1
 
     for x in array_list[2]:
-        b = b + x * size2 ** 0.75 / array_list[2].size ** 0.75
+        b = b + x * size2 ** 0.5 / array_list[2].size ** 0.5
         size2 -= 1
 
     c = np.abs(128 - position) / 128 * 200
@@ -144,8 +142,8 @@ FullModel = tf.keras.Sequential([fullyconnected, autoencoder.decoder])
 def optimizer(x):
     # encode image
     x[5] = number / 10_000
-    print(np.shape(x))
-    print(x)
+    #print(np.shape(x))
+    #print(x)
     picture = FullModel.predict(np.array(x).reshape(1, 7))[0]
 
     # evaluate image
@@ -166,32 +164,32 @@ x10000 = np.array([1.38591463e+02, 1.91580887e+00, 5.49097803e+02, 5.70393449e+0
 
 # call optimizer for all cases, and safe most optimal picture
 number = 3000
-res1 = basinhopping(optimizer, x3000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
+res1 = basinhopping(optimizer, x3000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
 visualise(np.array(res1.x))
 
 
-np.save(path + '3000_scoring.npy', score_array)
-np.save(path + '3000_best_x.npy', best_x)
+np.save(path + '3000_scoring.npy', np.array(score_array))
+np.save(path + '3000_best_x.npy', np.array(best_x))
 best_x = []
 score_array = []
 best_score = 100000
 
 number = 5000
-res2 = basinhopping(optimizer, x5000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
+res2 = basinhopping(optimizer, x5000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
 visualise(np.array(res2.x))
 
 
-np.save(path + '3000_scoring.npy', score_array)
-np.save(path + '3000_best_x.npy', best_x)
+np.save(path + '5000_scoring.npy', np.array(score_array))
+np.save(path + '5000_best_x.npy', np.array(best_x))
 best_x = []
 score_array = []
 best_score = 100000
 
 number = 10000
-res3 = basinhopping(optimizer, x10000, niter=100, minimizer_kwargs={'constraints': cons}, T=1.2)
+res3 = basinhopping(optimizer, x10000, niter=100, minimizer_kwargs={'constraints': cons, 'method': "SLSQP"}, T=1.2)
 visualise(np.array(res3.x))
-np.save(path + '3000_scoring.npy', score_array)
-np.save(path + '3000_best_x.npy', best_x)
+np.save(path + '10000_scoring.npy', np.array(score_array))
+np.save(path + '10000_best_x.npy', np.array(best_x))
 
 print(res1)
 print(res2)
